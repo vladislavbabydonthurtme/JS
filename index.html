@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Sign-Up Baby</title>
+        <script src="scripts/suoli.js" defer></script>
+        <link rel="stylesheet" type="text/css" href="sheets/souliStyle.css">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <div id="mainDiv" name="mainD" class="suoliFormsStyle flex">
+            <h2 id="mainTitle">Hello guest !</h2>
+            <button id='startSuoli' type="button">Sign up / Log in</button>
+        </div>
+        <div id="suoli" class="suoliFormsStyle">
+            <div name="Sign-Up" class="singUp">
+                <h2>Sign up</h2>
+                <form class="signUpForm" method="POST">
+                    <input id="firstName" name="firstName" class="inputText" type="text" placeholder="First name"/>
+                    <input id="lastName" name="lastName" type="text" placeholder="Last name"/>
+                    <input id="SUemail" name="Email" type="text" placeholder="Email"/>
+                    <input id="SUpassword" name="Password" type="password" placeholder="Password"/>
+                    <button id="signUpBtn" type="button">Sign-up</button>
+                </form>
+                <h2>Already signed up ?</h2>
+                <button id="logedInRedirect" type="button">Log-in</button>
+            </div>
+            <div name="Log-In" class="logIn">
+                <h2>Log In</h2>
+                <form class="logInForm" method="GET">
+                    <input id="LIemail" name="Email" type="text" placeholder="Email" required/>
+                    <input id="LIpassword" name="Password" type="password" placeholder="Password" required/>
+                    <button id="logInBtn" type="button">Log In</button>
+                </form>
+                <h2>Don't have a username and password ?</h2>
+                <button id="signedUpRedirect" type="button">Sign-up</button>
+            </div>
+            <!-- <button id="souliBtn" type="button">Sign-up</button> -->
+        </div>
+        <div id="suoliMessenger" class="signUpMsgBackground"></div>
+        <div class="signUpMsg">
+            <h1 id='SuPostiveMsg'>You were succesfully signed up !</label>
+            <button id="backToMainBtn">Go back to the start</button>
+        </div>
+    </body>
+</html>
