@@ -19,16 +19,16 @@ const LIpassword = document.getElementById("LIpassword");
 const souliFormDiv = document.getElementById("suoli");
 const signUpForm = souliFormDiv.querySelectorAll("div")[0];
 const logInForm = souliFormDiv.querySelectorAll("div")[1];
-const suoliMessenger = document.getElementById("suoliMessenger");
+const suoliMsgBackground = document.getElementById("suoliMsgBackground");
 const divMsg = document.querySelector(".signUpMsg");
 const mainDiv = document.getElementById("mainDiv");
 const suoliDiv = document.getElementById("suoli");
 
 const directToMainDiv = () => {
-  suoliMessenger.classList.toggle("visible");
-  divMsg.classList.toggle("visible");
-  mainDiv.classList.toggle("flex");
-  suoliDiv.classList.toggle("flex");
+  suoliMsgBackground.classList.remove("visible");
+  divMsg.classList.remove("visible");
+  mainDiv.classList.add("flex");
+  suoliDiv.classList.remove("flex");
 };
 
 const checkingInputValues = (val) => {
@@ -47,13 +47,11 @@ const checkingInputValues = (val) => {
 
 const signUpBtnHandler = () => {
   const val = [firstName, lastName, SUemail, SUpassword];
-
+  divMsg.classList.toggle("visible");
+  suoliMsgBackground.classList.toggle("visible");
   const isTheInputOk = checkingInputValues(val);
 
   if (isTheInputOk === true) {
-    divMsg.classList.toggle("visible");
-    suoliMessenger.classList.toggle("visible");
-
     const http = new XMLHttpRequest();
     http.open("POST", "/signingUp", true);
     http.setRequestHeader("content-type", "application/json");
@@ -68,9 +66,11 @@ const signUpBtnHandler = () => {
     http.send(JSON.stringify(newUserObject));
 
     http.onload = () => {
-      if (http.response) {
-        suoliMessenger.addEventListener("click", suoliMessengerHandler);
-        backToMainBtn.addEventListener("click", backToMainBtnHandler);
+      if (http.response === "error") {
+        alert("This emai already exist in the database. try logging in !");
+      } else {
+        suoliMsgBackground.addEventListener("click", directToMainDiv);
+        backToMainBtn.addEventListener("click", directToMainDiv);
       }
     };
   } else {
@@ -82,17 +82,14 @@ const signUpBtnHandler = () => {
   SUpassword.value = "";
 };
 
-const suoliMessengerHandler = () => {
-  directToMainDiv();
-};
-
-const backToMainBtnHandler = () => {
-  directToMainDiv();
-};
-
 const startSuoliHandler = () => {
-  mainDiv.classList.toggle("flex");
-  suoliDiv.classList.toggle("flex");
+  mainDiv.classList.remove("flex");
+  suoliDiv.classList.add("flex");
+};
+
+const endSuoliHandler = () => {
+  mainDiv.classList.add("flex");
+  suoliDiv.classList.remove("flex");
 };
 
 const logInBtnHandler = () => {
@@ -112,8 +109,9 @@ const logInBtnHandler = () => {
         const resp = JSON.parse(http.response);
         mainDiv.innerHTML = `<h2 id="mainTitle">Hello ${resp.firstName} ${resp.lastName} ! Great to see you!</h2>
       <button id='logOutBtn' type="button">log out</button>`;
-        divMsg.classList.toggle("visible");
-        suoliMessenger.classList.toggle("visible");
+        suoliMsgBackground.classList.add("visible");
+        divMsg.classList.add("visible");
+        //suoliMessenger.classList.remove("visible");
         const logOutBtn = document.getElementById("logOutBtn");
         logOutBtn.addEventListener("click", logOutBtnHandler);
       } else {
@@ -142,7 +140,7 @@ const logOutBtnHandler = () => {
   startSuoliBtn2.addEventListener("click", startSuoliHandler);
 };
 
-backToMainBtn.addEventListener("click", backToMainBtnHandler);
+backToMainBtn.addEventListener("click", directToMainDiv);
 logedInRedirect.addEventListener("click", RedirectHandler);
 signUpRedirect.addEventListener("click", RedirectHandler);
 signUpBtn.addEventListener("click", signUpBtnHandler);
