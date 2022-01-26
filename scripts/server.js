@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const fs = require("fs");
-let currentLoggedUser = "";
+let currentLoggedUser = null;
 
 const INDEX_ADDRESS = "/Users/vladislavgoteiner/Desktop/Sing-up Baby/";
 
@@ -57,5 +57,5 @@ app.post("/logingIn", (req, res) => {
 });
 
 app.post("/logingOut", (req, res) => {
-  currentLoggedUser = "";
+  currentLoggedUser = null;
 });

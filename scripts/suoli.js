@@ -24,6 +24,13 @@ const divMsg = document.querySelector(".signUpMsg");
 const mainDiv = document.getElementById("mainDiv");
 const suoliDiv = document.getElementById("suoli");
 
+const passwordHashing = (password) => {
+  const sha = new jsSHA("SHA-512", "TEXT", { encoding: "UTF8" },{ numRounds: 1 });
+  sha.update(password);
+  const hashedPassword = sha.getHash("HEX");
+  return hashedPassword;
+};
+
 const directToMainDiv = () => {
   suoliMsgBackground.classList.remove("visible");
   divMsg.classList.remove("visible");
@@ -56,11 +63,14 @@ const signUpBtnHandler = () => {
     http.open("POST", "/signingUp", true);
     http.setRequestHeader("content-type", "application/json");
 
+    const hashedPassword = passwordHashing(SUpassword.value);
+    console.log("sign up hash " + hashedPassword);
+
     const newUserObject = {
       firstName: firstName.value,
       lastName: lastName.value,
       email: SUemail.value,
-      password: SUpassword.value,
+      password: hashedPassword,
     };
 
     http.send(JSON.stringify(newUserObject));
@@ -99,10 +109,14 @@ const logInBtnHandler = () => {
     const http = new XMLHttpRequest();
     http.open("POST", "/logingIn", true);
     http.setRequestHeader("content-type", "application/json");
+
+    console.log("log in hash"+passwordHashing(LIpassword.value));
+
     const enteringUserObject = {
       email: LIemail.value,
-      password: LIpassword.value,
+      password: passwordHashing(LIpassword.value)
     };
+
     http.send(JSON.stringify(enteringUserObject));
     http.onload = () => {
       if (http.response) {
